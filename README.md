@@ -14,9 +14,42 @@ This project does take a fair bit of disk space. I generated something close to 
 
 You can use a local machine to do steps 1 and 2 so you can inspect the data preprocessing steps and they are both CPU only jobs. The main steps are each a mode in main.py and we will be using main.py to call them. It is recommended to read through main.py and see what options there are and what default parameters you may be using to call each step. We are only setting the path parameters below, not changing the default scaling and other frame counts so use the default parameters in your analysis. If for some reason a run fails in the middle, you may need to delete the files that have been generated. It is not guaranteed that the code will overwrite the previously generate files or just append to them. 
 
-### To install dependencies, please run
+## Google Cloud VM Setup
+n1-standard-8
+NVIDIA Tesla V100
+210 GB boot disk
+Ubuntu Pro 16.04
+Spot Instance
 
-<code>pip install sklearn opencv-python tqdm pandas xgboost umap seaborn multipledispatch barbar</code>
+## Environment Setup
+<code>
+wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_9.2.148-1_amd64.deb
+sudo dpkg -i cuda-repo-ubuntu1604_9.2.148-1_amd64.deb
+sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
+sudo apt-get update
+sudo apt-get install cuda
+
+# Verification: make sure a GPU shows up here
+nvidia-smi
+
+## Conda
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+sh Miniconda3-latest-Linux-x86_64.sh
+source .bashrc
+
+## Conda Environment
+conda create --name torch python=3.6
+conda activate torch
+conda install pytorch cuda92 -c pytorch
+pip install sklearn opencv-python tqdm pandas xgboost umap seaborn multipledispatch barbar
+
+# Get Dataset
+sudo apt-get install zip unzip
+pip3 install gdown
+cd ~/
+gdown <ID OF ZIP FILE IN GOOGLE DRIVE> -O <JIGSAWS.zip>
+unzip <Path to zip file>
+</code>
 
 ### To generate the optical flow, run the following command. You may need to adjust the path for where you downloaded your JIGSAWS directory. This call will perform two steps. The first step will resize the video and the second will generate the optical flow. 
 
@@ -32,9 +65,6 @@ Make sure the code started running OK (it should say 'Rescaling videos; Processi
 ### To train the network using your data_blobs. Run the following code:  
 
 <code>python3 main.py --mode 'train' --blobs_folder_path '../JIGSAWS/Suturing/blobs' --weights_save_path models</code> 
-
-### Come up with your own command for evaluation. Look at the parameters that are required in main.py (lines 144-162) and see what needs to be filled in, and what parameters are used by default. 
-
 
 The paper associated with this repository can be found at https://link.springer.com/article/10.1007/s11548-021-02343-y. The citation details are as follows.
 
