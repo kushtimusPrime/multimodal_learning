@@ -15,14 +15,14 @@ This project does take a fair bit of disk space. I generated something close to 
 You can use a local machine to do steps 1 and 2 so you can inspect the data preprocessing steps and they are both CPU only jobs. The main steps are each a mode in main.py and we will be using main.py to call them. It is recommended to read through main.py and see what options there are and what default parameters you may be using to call each step. We are only setting the path parameters below, not changing the default scaling and other frame counts so use the default parameters in your analysis. If for some reason a run fails in the middle, you may need to delete the files that have been generated. It is not guaranteed that the code will overwrite the previously generate files or just append to them. 
 
 ## Google Cloud VM Setup
-n1-standard-8
-NVIDIA Tesla V100
-210 GB boot disk
-Ubuntu Pro 16.04
-Spot Instance
+* n1-standard-8
+* NVIDIA Tesla V100
+* 210 GB boot disk
+* Ubuntu Pro 16.04
+* Spot Instance
 
 ## Environment Setup
-<code>
+```
 wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_9.2.148-1_amd64.deb
 sudo dpkg -i cuda-repo-ubuntu1604_9.2.148-1_amd64.deb
 sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
@@ -49,7 +49,7 @@ pip3 install gdown
 cd ~/
 gdown <ID OF ZIP FILE IN GOOGLE DRIVE> -O <JIGSAWS.zip>
 unzip <Path to zip file>
-</code>
+```
 
 ### To generate the optical flow, run the following command. You may need to adjust the path for where you downloaded your JIGSAWS directory. This call will perform two steps. The first step will resize the video and the second will generate the optical flow. 
 
